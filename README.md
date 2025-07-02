@@ -16,6 +16,27 @@
 2. 重启Discourse
 3. 在管理面板中启用插件
 
+### 快速安装
+
+```bash
+# 在 Discourse 目录中运行
+./install.sh
+```
+
+### 故障排除
+
+如果遇到"该页面不存在"的问题，请运行：
+
+```bash
+# 快速修复路由问题
+./fix-routes.sh
+
+# 详细故障排除
+./troubleshoot.sh
+```
+
+更多故障排除信息请查看 [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
+
 ## 使用方法
 
 ### 添加实践兴趣

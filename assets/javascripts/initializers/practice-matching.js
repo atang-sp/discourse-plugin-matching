@@ -5,8 +5,29 @@ export default {
 
   initialize() {
     withPluginApi("0.8.31", api => {
-      // Discourse 3.x 不再支持 widget API，这里保留初始化壳子
-      // 如需入口按钮，请用 theme component 或 plugin outlet 实现
+      // 注册前端路由
+      api.modifyClass("router:main", {
+        buildRoutes() {
+          const routes = this._super(...arguments);
+          routes.push({
+            path: "/practice-matching",
+            route: "practice-matching"
+          });
+          return routes;
+        }
+      });
+
+      // 添加导航链接到用户菜单
+      api.decorateWidget("header-buttons:before", helper => {
+        if (api.getCurrentUser()) {
+          return helper.h("li.header-dropdown-toggle.practice-matching-link", [
+            helper.h("a", { href: "/practice-matching" }, [
+              helper.h("i.fa.fa-handshake"),
+              " 实践配对"
+            ])
+          ]);
+        }
+      });
     });
   }
 }; 
