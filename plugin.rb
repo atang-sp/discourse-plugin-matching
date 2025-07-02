@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-# name: discourse-practice-matching
+# name: discourse-plugin-matching
 # about: 允许用户添加想约实践的人，当双方都想和对方约实践时通知两人
 # version: 1.0
 # authors: Assistant
-# url: https://github.com/your-username/discourse-practice-matching
+# url: https://github.com/your-username/discourse-plugin-matching
 
 enabled_site_setting :practice_matching_enabled
 
@@ -14,7 +14,7 @@ register_svg_icon "practice-matching"
 register_svg_icon "practice-match-found"
 
 module ::PracticeMatching
-  PLUGIN_NAME = "discourse-practice-matching"
+  PLUGIN_NAME = "discourse-plugin-matching"
 end
 
 require_relative "lib/practice_matching/engine"

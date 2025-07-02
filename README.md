@@ -58,7 +58,7 @@
 
 ### 文件结构
 ```
-discourse-practice-matching/
+discourse-plugin-matching/
 ├── plugin.rb                          # 主插件文件
 ├── lib/
 │   ├── practice_matching/

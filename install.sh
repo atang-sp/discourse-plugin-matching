@@ -11,7 +11,7 @@ if [ ! -f "config/database.yml" ]; then
 fi
 
 # 创建插件目录
-PLUGIN_DIR="plugins/discourse-practice-matching"
+PLUGIN_DIR="plugins/discourse-plugin-matching"
 if [ -d "$PLUGIN_DIR" ]; then
     echo "警告: 插件目录已存在，将备份现有文件..."
     mv "$PLUGIN_DIR" "${PLUGIN_DIR}.backup.$(date +%Y%m%d_%H%M%S)"
@@ -21,7 +21,7 @@ mkdir -p "$PLUGIN_DIR"
 
 # 复制插件文件
 echo "复制插件文件..."
-cp -r ../discourse-practice-matching/* "$PLUGIN_DIR/"
+cp -r ../discourse-plugin-matching/* "$PLUGIN_DIR/"
 
 # 设置权限
 chmod +x "$PLUGIN_DIR/install.sh"
