@@ -5,6 +5,7 @@
 # version: 1.0
 # authors: Assistant
 # url: https://github.com/your-username/discourse-plugin-matching
+# type: plugin
 
 enabled_site_setting :practice_matching_enabled
 
