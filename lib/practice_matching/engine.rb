@@ -6,3 +6,7 @@ module PracticeMatching
     isolate_namespace PracticeMatching
   end
 end
+
+# Require all the necessary files
+require_relative "user_extension"
+require_relative "practice_interest"
