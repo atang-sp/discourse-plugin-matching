@@ -1,0 +1,103 @@
+{{#d-section class="practice-matching-page"}}
+  <div class="practice-matching-header">
+    <h1>实践配对管理</h1>
+    <p>管理你想约实践的用户列表，当双方都想和对方约实践时会收到通知</p>
+  </div>
+
+  <div class="practice-matching-content">
+    <!-- 添加新兴趣 -->
+    <div class="practice-matching-section">
+      <h2>添加实践兴趣</h2>
+      <div class="add-interest-form">
+        <button class="btn btn-primary" {{action "addInterest"}}>
+          <i class="fa fa-plus"></i> 添加用户到实践兴趣列表
+        </button>
+      </div>
+    </div>
+
+    <!-- 我的实践兴趣 -->
+    <div class="practice-matching-section">
+      <h2>我的实践兴趣 ({{practiceInterests.length}})</h2>
+      {{#if practiceInterests.length}}
+        <div class="user-list">
+          {{#each practiceInterests as |user|}}
+            <div class="user-item">
+              <div class="user-avatar">
+                <img src="{{user.avatar_template}}" alt="{{user.username}}">
+              </div>
+              <div class="user-info">
+                <h3>{{user.name}}</h3>
+                <p>@{{user.username}}</p>
+              </div>
+              <div class="user-actions">
+                <button class="btn btn-default" {{action "viewUserProfile" user.username}}>
+                  查看资料
+                </button>
+                <button class="btn btn-danger" {{action "removeInterest" user.username}}>
+                  移除
+                </button>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      {{else}}
+        <p class="no-data">还没有添加任何实践兴趣</p>
+      {{/if}}
+    </div>
+
+    <!-- 想和我约实践的人 -->
+    <div class="practice-matching-section">
+      <h2>想和我约实践的人 ({{practiceTargets.length}})</h2>
+      {{#if practiceTargets.length}}
+        <div class="user-list">
+          {{#each practiceTargets as |user|}}
+            <div class="user-item">
+              <div class="user-avatar">
+                <img src="{{user.avatar_template}}" alt="{{user.username}}">
+              </div>
+              <div class="user-info">
+                <h3>{{user.name}}</h3>
+                <p>@{{user.username}}</p>
+              </div>
+              <div class="user-actions">
+                <button class="btn btn-default" {{action "viewUserProfile" user.username}}>
+                  查看资料
+                </button>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      {{else}}
+        <p class="no-data">还没有人想和你约实践</p>
+      {{/if}}
+    </div>
+
+    <!-- 双向匹配 -->
+    <div class="practice-matching-section">
+      <h2>双向匹配 ({{practiceMatches.length}})</h2>
+      {{#if practiceMatches.length}}
+        <div class="user-list matches">
+          {{#each practiceMatches as |user|}}
+            <div class="user-item match">
+              <div class="user-avatar">
+                <img src="{{user.avatar_template}}" alt="{{user.username}}">
+              </div>
+              <div class="user-info">
+                <h3>{{user.name}}</h3>
+                <p>@{{user.username}}</p>
+                <span class="match-badge">双向匹配</span>
+              </div>
+              <div class="user-actions">
+                <button class="btn btn-success" {{action "viewUserProfile" user.username}}>
+                  开始实践
+                </button>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      {{else}}
+        <p class="no-data">还没有双向匹配</p>
+      {{/if}}
+    </div>
+  </div>
+{{/d-section}} 

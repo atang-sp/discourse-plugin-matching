@@ -1,0 +1,9 @@
+plugins:
+  practice_matching_enabled:
+    default: true
+    client: true
+    enum:
+      - true
+      - false
+    description: "启用实践配对功能"
+    category: "plugins" 

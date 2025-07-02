@@ -1,0 +1,176 @@
+.practice-matching-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+
+  .practice-matching-header {
+    text-align: center;
+    margin-bottom: 30px;
+    
+    h1 {
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    
+    p {
+      color: var(--secondary);
+      font-size: 16px;
+    }
+  }
+
+  .practice-matching-content {
+    .practice-matching-section {
+      margin-bottom: 40px;
+      padding: 20px;
+      background: var(--highlight-low);
+      border-radius: 8px;
+      
+      h2 {
+        color: var(--primary);
+        margin-bottom: 20px;
+        font-size: 18px;
+        font-weight: 600;
+      }
+      
+      .add-interest-form {
+        text-align: center;
+        
+        .btn {
+          padding: 10px 20px;
+          font-size: 14px;
+        }
+      }
+      
+      .user-list {
+        .user-item {
+          display: flex;
+          align-items: center;
+          padding: 15px;
+          margin-bottom: 10px;
+          background: var(--secondary);
+          border-radius: 6px;
+          border: 1px solid var(--primary-low);
+          
+          &.match {
+            border-color: var(--success);
+            background: var(--success-low);
+            
+            .match-badge {
+              background: var(--success);
+              color: white;
+              padding: 2px 8px;
+              border-radius: 12px;
+              font-size: 12px;
+              font-weight: 600;
+            }
+          }
+          
+          .user-avatar {
+            margin-right: 15px;
+            
+            img {
+              width: 50px;
+              height: 50px;
+              border-radius: 50%;
+              border: 2px solid var(--primary-low);
+            }
+          }
+          
+          .user-info {
+            flex: 1;
+            
+            h3 {
+              margin: 0 0 5px 0;
+              font-size: 16px;
+              font-weight: 600;
+              color: var(--primary);
+            }
+            
+            p {
+              margin: 0;
+              color: var(--secondary);
+              font-size: 14px;
+            }
+          }
+          
+          .user-actions {
+            display: flex;
+            gap: 10px;
+            
+            .btn {
+              padding: 6px 12px;
+              font-size: 12px;
+              
+              &.btn-danger {
+                background: var(--danger);
+                color: white;
+                border: none;
+                
+                &:hover {
+                  background: var(--danger-hover);
+                }
+              }
+              
+              &.btn-success {
+                background: var(--success);
+                color: white;
+                border: none;
+                
+                &:hover {
+                  background: var(--success-hover);
+                }
+              }
+            }
+          }
+        }
+        
+        &.matches {
+          .user-item {
+            border-color: var(--success);
+            background: var(--success-low);
+          }
+        }
+      }
+      
+      .no-data {
+        text-align: center;
+        color: var(--secondary);
+        font-style: italic;
+        padding: 20px;
+      }
+    }
+  }
+}
+
+// 用户卡片中的实践配对按钮
+.user-card .practice-matching-button {
+  .btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    
+    &:hover {
+      background: var(--primary-hover);
+    }
+  }
+}
+
+// 用户资料页面中的实践配对按钮
+.user-profile .practice-matching-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  margin-left: 10px;
+  
+  &:hover {
+    background: var(--primary-hover);
+  }
+}
+
+// 通知样式
+.notification.practice-match-found {
+  .notification-data {
+    color: var(--success);
+    font-weight: 600;
+  }
+} 
