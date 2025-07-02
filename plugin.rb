@@ -10,10 +10,6 @@
 enabled_site_setting :practice_matching_enabled
 
 register_asset "stylesheets/common/practice-matching.scss"
-register_asset "javascripts/discourse/routes/practice-matching.js"
-register_asset "javascripts/discourse/controllers/practice-matching.js"
-register_asset "javascripts/discourse/templates/practice-matching.hbs"
-register_asset "javascripts/initializers/practice-matching.js"
 
 register_svg_icon "practice-matching"
 register_svg_icon "practice-match-found"
