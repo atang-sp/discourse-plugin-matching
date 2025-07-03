@@ -3,8 +3,8 @@
 # name: discourse-plugin-matching
 # about: 允许用户添加想约实践的人，当双方都想和对方约实践时通知两人
 # version: 1.0
-# authors: Assistant
-# url: https://github.com/your-username/discourse-plugin-matching
+# authors: 阿汤
+# url: https://github.com/atang-sp/discourse-plugin-matching
 # type: plugin
 
 enabled_site_setting :practice_matching_enabled
