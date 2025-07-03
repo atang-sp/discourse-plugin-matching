@@ -142,12 +142,36 @@
   }
 }
 
-// 用户卡片中的实践配对按钮
-.user-card .practice-matching-button {
+// 导航栏样式
+.nav-pills .practice-matching {
+  .d-icon {
+    color: var(--primary);
+  }
+  
+  &:hover .d-icon {
+    color: var(--primary-hover);
+  }
+}
+
+// 用户菜单项样式
+.user-menu .practice-matching-menu-item {
+  a {
+    color: var(--primary);
+    
+    &:hover {
+      color: var(--primary-hover);
+      background: var(--highlight-low);
+    }
+  }
+}
+
+// 用户资料页面中的实践配对按钮
+.practice-matching-profile-control {
   .btn {
     background: var(--primary);
     color: white;
     border: none;
+    margin-left: 10px;
     
     &:hover {
       background: var(--primary-hover);
@@ -155,15 +179,18 @@
   }
 }
 
-// 用户资料页面中的实践配对按钮
-.user-profile .practice-matching-btn {
-  background: var(--primary);
-  color: white;
-  border: none;
-  margin-left: 10px;
-  
-  &:hover {
-    background: var(--primary-hover);
+// 用户卡片中的实践配对按钮
+.practice-matching-card-control {
+  .btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    font-size: 12px;
+    padding: 4px 8px;
+    
+    &:hover {
+      background: var(--primary-hover);
+    }
   }
 }
 
