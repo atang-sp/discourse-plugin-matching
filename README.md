@@ -37,6 +37,45 @@
 
 更多故障排除信息请查看 [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
 
+## 本地开发
+
+### 快速开始
+
+1. **设置 Discourse 开发环境**：
+   ```bash
+   git clone https://github.com/discourse/discourse.git
+   cd discourse
+   bundle install
+   yarn install
+   createdb discourse_development
+   rails db:migrate RAILS_ENV=development
+   ```
+
+2. **安装插件**：
+   ```bash
+   cp -r /path/to/discourse-practice-matching plugins/discourse-plugin-matching
+   ```
+
+3. **启动开发服务器**：
+   ```bash
+   ./quick-dev.sh
+   ```
+
+### 开发工具
+
+- **快速启动**: `./quick-dev.sh` - 一键启动开发环境
+- **详细设置**: `./setup-dev.sh` - 完整的环境设置
+- **调试插件**: `./debug-plugin.sh` - 专门的调试工具
+
+### 开发工作流
+
+1. 修改代码（支持热重载）
+2. 在浏览器中测试：http://localhost:3000/practice-matching
+3. 查看日志：`tail -f log/development.log`
+4. 调试：打开浏览器开发者工具
+
+详细开发指南请查看 [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md)
+
 ## 使用方法
 
 ### 添加实践兴趣
