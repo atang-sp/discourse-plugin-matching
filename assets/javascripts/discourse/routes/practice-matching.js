@@ -3,7 +3,14 @@ import { ajax } from "discourse/lib/ajax";
 
 export default DiscourseRoute.extend({
   model() {
-    return ajax("/practice-matching");
+    return ajax("/practice-matching").catch(error => {
+      console.error("Error loading practice matching data:", error);
+      return {
+        practice_interests: [],
+        practice_targets: [],
+        practice_matches: []
+      };
+    });
   },
 
   setupController(controller, model) {
@@ -24,6 +31,8 @@ export default DiscourseRoute.extend({
           this.refresh();
         }
         return result;
+      }).catch(error => {
+        console.error("Error adding interest:", error);
       });
     },
 
@@ -36,6 +45,8 @@ export default DiscourseRoute.extend({
           this.refresh();
         }
         return result;
+      }).catch(error => {
+        console.error("Error removing interest:", error);
       });
     }
   }

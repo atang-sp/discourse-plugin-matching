@@ -22,7 +22,9 @@ require_relative "lib/practice_matching/engine"
 
 after_initialize do
   # 注册新的通知类型
-  Notification.types[:practice_match_found] = 900
+  if defined?(Notification.types)
+    Notification.types[:practice_match_found] = 900
+  end
 
   # 添加用户扩展
   reloadable_patch { |plugin| User.prepend(PracticeMatching::UserExtension) }
