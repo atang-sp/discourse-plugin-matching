@@ -18,21 +18,57 @@ class PracticeMatchingController < ApplicationController
   end
 
   def add_interest
+    Rails.logger.info "=== Adding Practice Interest ==="
+    Rails.logger.info "Request method: #{request.method}"
+    Rails.logger.info "Request params: #{params.inspect}"
+    Rails.logger.info "Current user: #{current_user&.username} (ID: #{current_user&.id})"
+    
     target_username = params[:username]
+    Rails.logger.info "Target username: #{target_username}"
+    
+    unless target_username
+      Rails.logger.error "No username provided in params"
+      return render json: { error: "用户名不能为空" }, status: 400
+    end
+    
     target_user = User.find_by(username: target_username)
     
     unless target_user
+      Rails.logger.warn "Target user not found: #{target_username}"
       return render json: { error: "用户不存在" }, status: 404
     end
+    
+    Rails.logger.info "Target user found: #{target_user.username} (ID: #{target_user.id})"
 
     begin
-      if current_user.add_practice_interest(target_user)
+      Rails.logger.info "Creating practice interest..."
+      result = current_user.add_practice_interest(target_user)
+      Rails.logger.info "Add practice interest result: #{result}"
+      
+      case result
+      when true
+        Rails.logger.info "Practice interest created successfully"
         render json: { success: true, message: "已添加 #{target_username} 到实践兴趣列表" }
+      when :self_user
+        Rails.logger.warn "User trying to add self"
+        render json: { error: "不能添加自己到实践兴趣列表" }, status: 400
+      when :already_exists
+        Rails.logger.warn "Practice interest already exists"
+        render json: { error: "已经添加过 #{target_username} 到实践兴趣列表了" }, status: 400
+      when :creation_failed
+        Rails.logger.error "Failed to create practice interest record"
+        render json: { error: "添加失败，请重试" }, status: 400
       else
-        render json: { error: "添加失败，可能已经存在或不能添加自己" }, status: 400
+        Rails.logger.error "Unknown result from add_practice_interest: #{result}"
+        render json: { error: "添加失败，请重试" }, status: 400
       end
     rescue ActiveRecord::RecordInvalid => e
+      Rails.logger.error "Record validation error: #{e.record.errors.full_messages}"
       render json: { error: e.record.errors.full_messages.join(", ") }, status: 400
+    rescue => e
+      Rails.logger.error "Unexpected error: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
+      render json: { error: "服务器错误，请重试" }, status: 500
     end
   end
 

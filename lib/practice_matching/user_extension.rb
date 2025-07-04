@@ -11,11 +11,13 @@ module PracticeMatching::UserExtension
   end
 
   def add_practice_interest(target_user)
-    return false if target_user == self
+    # Return specific error codes for different failure reasons
+    return :self_user if target_user == self
+    return :already_exists if practice_interests.exists?(target_user: target_user)
     
-    practice_interests.create!(target_user: target_user)
-  rescue ActiveRecord::RecordInvalid => e
-    false
+    # Create the practice interest
+    practice_interest = practice_interests.create(target_user: target_user)
+    practice_interest.persisted? ? true : :creation_failed
   end
 
   def remove_practice_interest(target_user)
