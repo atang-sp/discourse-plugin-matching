@@ -1,0 +1,11 @@
+en:
+  js:
+    practice_matching:
+      select_user: "Select User to Add"
+      search_users: "Search Users"
+      search_placeholder: "Enter username to search..."
+      searching: "Searching..."
+      search_results: "Search Results"
+      no_results: "No matching users found"
+      search_hint: "Please enter a username to start searching"
+      confirm_add: "Confirm Add" 

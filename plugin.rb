@@ -9,7 +9,7 @@
 
 enabled_site_setting :practice_matching_enabled
 
-register_asset "stylesheets/common/practice-matching.scss"
+register_asset "stylesheets/practice-matching.scss"
 
 register_svg_icon "practice-matching"
 register_svg_icon "practice-match-found"

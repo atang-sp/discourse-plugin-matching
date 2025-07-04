@@ -1,7 +1,7 @@
 import DiscourseRoute from "discourse/routes/discourse";
 import { ajax } from "discourse/lib/ajax";
 
-export default DiscourseRoute.extend({
+export default class PracticeMatchingRoute extends DiscourseRoute {
   model() {
     return ajax("/practice-matching").catch(error => {
       console.error("Error loading practice matching data:", error);
@@ -11,7 +11,7 @@ export default DiscourseRoute.extend({
         practice_matches: []
       };
     });
-  },
+  }
 
   setupController(controller, model) {
     controller.setProperties({
@@ -19,35 +19,43 @@ export default DiscourseRoute.extend({
       practiceTargets: model.practice_targets || [],
       practiceMatches: model.practice_matches || []
     });
-  },
+  }
 
-  actions: {
-    addInterest(username) {
-      return ajax("/practice-matching/add", {
+  async addInterest(username) {
+    try {
+      const result = await ajax("/practice-matching/add", {
         type: "POST",
         data: { username }
-      }).then(result => {
-        if (result.success) {
-          this.refresh();
-        }
-        return result;
-      }).catch(error => {
-        console.error("Error adding interest:", error);
       });
-    },
-
-    removeInterest(username) {
-      return ajax("/practice-matching/remove", {
-        type: "DELETE",
-        data: { username }
-      }).then(result => {
-        if (result.success) {
-          this.refresh();
-        }
-        return result;
-      }).catch(error => {
-        console.error("Error removing interest:", error);
-      });
+      
+      if (result.success) {
+        // 刷新数据
+        this.refresh();
+      }
+      
+      return result;
+    } catch (error) {
+      console.error("Error adding interest:", error);
+      throw error;
     }
   }
-}); 
+
+  async removeInterest(username) {
+    try {
+      const result = await ajax("/practice-matching/remove", {
+        type: "POST",
+        data: { username }
+      });
+      
+      if (result.success) {
+        // 刷新数据
+        this.refresh();
+      }
+      
+      return result;
+    } catch (error) {
+      console.error("Error removing interest:", error);
+      throw error;
+    }
+  }
+} 

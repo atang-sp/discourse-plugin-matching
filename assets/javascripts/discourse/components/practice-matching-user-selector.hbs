@@ -1,0 +1,71 @@
+<DModal
+  @title={{i18n "practice_matching.select_user"}}
+  @closeModal={{@closeModal}}
+  class="practice-matching-user-selector"
+>
+  <:body>
+    <div class="search-section">
+      <label for="user-search">{{i18n "practice_matching.search_users"}}：</label>
+      <input 
+        type="text" 
+        id="user-search"
+        placeholder={{i18n "practice_matching.search_placeholder"}}
+        value={{this.searchQuery}}
+        {{on "input" this.onSearchInput}}
+        class="form-control"
+      />
+    </div>
+
+    {{#if this.isSearching}}
+      <div class="searching">
+        <i class="fa fa-spinner fa-spin"></i> {{i18n "practice_matching.searching"}}
+      </div>
+    {{else if this.searchResults.length}}
+      <div class="search-results">
+        <h4>{{i18n "practice_matching.search_results"}}：</h4>
+        <div class="user-list">
+          {{#each this.searchResults as |user|}}
+            <div 
+              class="user-item {{if (eq user this.selectedUser) 'selected'}}"
+              {{on "click" (fn this.selectUser user)}}
+            >
+              <div class="user-avatar">
+                {{#if user.avatar_template}}
+                  <img src="{{user.avatar_template}}" alt="{{user.username}}" class="avatar">
+                {{else}}
+                  <div class="avatar-placeholder">{{user.username}}</div>
+                {{/if}}
+              </div>
+              <div class="user-info">
+                <h4>{{user.name}}</h4>
+                <p>@{{user.username}}</p>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    {{else if this.searchQuery}}
+      <div class="no-results">
+        <p>{{i18n "practice_matching.no_results"}}</p>
+      </div>
+    {{else}}
+      <div class="search-hint">
+        <p>{{i18n "practice_matching.search_hint"}}</p>
+      </div>
+    {{/if}}
+  </:body>
+
+  <:footer>
+    <DButton
+      @action={{this.cancel}}
+      @label="cancel"
+      class="btn-default"
+    />
+    <DButton
+      @action={{this.confirmSelection}}
+      @label="practice_matching.confirm_add"
+      class="btn-primary"
+      @disabled={{not this.selectedUser}}
+    />
+  </:footer>
+</DModal> 

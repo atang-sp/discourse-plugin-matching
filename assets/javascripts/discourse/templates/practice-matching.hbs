@@ -17,10 +17,10 @@
 
     <!-- 我的实践兴趣 -->
     <div class="practice-matching-section">
-      <h2>我的实践兴趣 ({{practiceInterests.length}})</h2>
-      {{#if practiceInterests.length}}
+      <h2>我的实践兴趣 ({{this.practiceInterests.length}})</h2>
+      {{#if this.practiceInterests.length}}
         <div class="user-list">
-          {{#each practiceInterests as |user|}}
+          {{#each this.practiceInterests as |user|}}
             <div class="user-item">
               <div class="user-avatar">
                 {{#if user.avatar_url}}
@@ -51,10 +51,10 @@
 
     <!-- 想和我约实践的人 -->
     <div class="practice-matching-section">
-      <h2>想和我约实践的人 ({{practiceTargets.length}})</h2>
-      {{#if practiceTargets.length}}
+      <h2>想和我约实践的人 ({{this.practiceTargets.length}})</h2>
+      {{#if this.practiceTargets.length}}
         <div class="user-list">
-          {{#each practiceTargets as |user|}}
+          {{#each this.practiceTargets as |user|}}
             <div class="user-item">
               <div class="user-avatar">
                 {{#if user.avatar_url}}
@@ -82,10 +82,10 @@
 
     <!-- 双向匹配 -->
     <div class="practice-matching-section">
-      <h2>双向匹配 ({{practiceMatches.length}})</h2>
-      {{#if practiceMatches.length}}
+      <h2>双向匹配 ({{this.practiceMatches.length}})</h2>
+      {{#if this.practiceMatches.length}}
         <div class="user-list matches">
-          {{#each practiceMatches as |user|}}
+          {{#each this.practiceMatches as |user|}}
             <div class="user-item match">
               <div class="user-avatar">
                 {{#if user.avatar_url}}

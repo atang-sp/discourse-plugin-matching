@@ -1,0 +1,11 @@
+zh_CN:
+  js:
+    practice_matching:
+      select_user: "选择要添加的用户"
+      search_users: "搜索用户"
+      search_placeholder: "输入用户名搜索..."
+      searching: "搜索中..."
+      search_results: "搜索结果"
+      no_results: "没有找到匹配的用户"
+      search_hint: "请输入用户名开始搜索"
+      confirm_add: "确认添加" 
