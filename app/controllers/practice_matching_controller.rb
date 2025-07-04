@@ -25,10 +25,14 @@ class PracticeMatchingController < ApplicationController
       return render json: { error: "用户不存在" }, status: 404
     end
 
-    if current_user.add_practice_interest(target_user)
-      render json: { success: true, message: "已添加 #{target_username} 到实践兴趣列表" }
-    else
-      render json: { error: "添加失败，可能已经存在或不能添加自己" }, status: 400
+    begin
+      if current_user.add_practice_interest(target_user)
+        render json: { success: true, message: "已添加 #{target_username} 到实践兴趣列表" }
+      else
+        render json: { error: "添加失败，可能已经存在或不能添加自己" }, status: 400
+      end
+    rescue ActiveRecord::RecordInvalid => e
+      render json: { error: e.record.errors.full_messages.join(", ") }, status: 400
     end
   end
 
