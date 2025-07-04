@@ -47,5 +47,6 @@ after_initialize do
     get "/practice-matching" => "practice_matching#index"
     post "/practice-matching/add" => "practice_matching#add_interest"
     delete "/practice-matching/remove" => "practice_matching#remove_interest"
+    get "/practice-matching/test" => "practice_matching#test"
   end
 end 

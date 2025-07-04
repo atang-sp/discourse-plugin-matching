@@ -16,8 +16,16 @@ module PracticeMatching::UserExtension
     return :already_exists if practice_interests.exists?(target_user: target_user)
     
     # Create the practice interest
-    practice_interest = practice_interests.create(target_user: target_user)
-    practice_interest.persisted? ? true : :creation_failed
+    begin
+      practice_interest = practice_interests.create!(target_user: target_user)
+      true
+    rescue ActiveRecord::RecordInvalid => e
+      Rails.logger.error "Failed to create practice interest: #{e.record.errors.full_messages}"
+      :creation_failed
+    rescue => e
+      Rails.logger.error "Unexpected error creating practice interest: #{e.message}"
+      :creation_failed
+    end
   end
 
   def remove_practice_interest(target_user)

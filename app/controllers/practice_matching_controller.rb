@@ -3,6 +3,8 @@
 class PracticeMatchingController < ApplicationController
   before_action :ensure_logged_in
   before_action :ensure_practice_matching_enabled
+  skip_before_action :check_xhr, only: [:index, :test]
+  skip_before_action :verify_authenticity_token, only: [:add_interest, :remove_interest]
 
   def index
     @user = current_user
@@ -21,7 +23,13 @@ class PracticeMatchingController < ApplicationController
     Rails.logger.info "=== Adding Practice Interest ==="
     Rails.logger.info "Request method: #{request.method}"
     Rails.logger.info "Request params: #{params.inspect}"
+    Rails.logger.info "Request headers: #{request.headers.to_h.select { |k,v| k.start_with?('HTTP_') }}"
     Rails.logger.info "Current user: #{current_user&.username} (ID: #{current_user&.id})"
+    Rails.logger.info "Current user trust level: #{current_user&.trust_level}"
+    Rails.logger.info "Current user admin: #{current_user&.admin?}"
+    Rails.logger.info "Current user staff: #{current_user&.staff?}"
+    Rails.logger.info "Practice matching enabled: #{SiteSetting.practice_matching_enabled}"
+    Rails.logger.info "Min trust level required: #{SiteSetting.practice_matching_min_trust_level}"
     
     target_username = params[:username]
     Rails.logger.info "Target username: #{target_username}"
@@ -84,12 +92,45 @@ class PracticeMatchingController < ApplicationController
     render json: { success: true, message: "已从实践兴趣列表中移除 #{target_username}" }
   end
 
+  def test
+    Rails.logger.info "=== Test endpoint called ==="
+    Rails.logger.info "Current user: #{current_user&.username}"
+    Rails.logger.info "Request method: #{request.method}"
+    Rails.logger.info "Request params: #{params.inspect}"
+    
+    render json: { 
+      success: true, 
+      message: "测试端点工作正常",
+      user: current_user&.username,
+      timestamp: Time.current
+    }
+  end
+
   private
 
   def ensure_practice_matching_enabled
+    Rails.logger.info "=== Checking Practice Matching Permissions ==="
+    Rails.logger.info "Current user: #{current_user&.username}"
+    Rails.logger.info "Practice matching enabled: #{SiteSetting.practice_matching_enabled}"
+    Rails.logger.info "Min trust level required: #{SiteSetting.practice_matching_min_trust_level}"
+    Rails.logger.info "Current user trust level: #{current_user&.trust_level}"
+    Rails.logger.info "Current user has required trust level: #{current_user&.has_trust_level?(SiteSetting.practice_matching_min_trust_level)}"
+    Rails.logger.info "Current user is staff: #{current_user&.staff?}"
+    
     unless SiteSetting.practice_matching_enabled
+      Rails.logger.warn "Practice matching is disabled"
       render json: { error: "实践配对功能已禁用" }, status: 403
+      return
     end
+    
+    min_trust_level = SiteSetting.practice_matching_min_trust_level
+    unless current_user.has_trust_level?(min_trust_level) || current_user.staff?
+      Rails.logger.warn "User #{current_user.username} does not have sufficient trust level (has: #{current_user.trust_level}, required: #{min_trust_level})"
+      render json: { error: "你的信任等级不足以使用此功能" }, status: 403
+      return
+    end
+    
+    Rails.logger.info "Permission check passed for user #{current_user.username}"
   end
 
   def user_serializer(user)

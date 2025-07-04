@@ -34,6 +34,7 @@ export default class PracticeMatchingController extends Controller {
       console.log("Adding user to practice interests:", username);
       try {
         console.log("Sending AJAX request to /practice-matching/add");
+        console.log("Request data:", { username });
         const result = await ajax("/practice-matching/add", {
           type: "POST",
           data: { username }

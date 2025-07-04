@@ -49,36 +49,7 @@
       {{/if}}
     </div>
 
-    <!-- 想和我约实践的人 -->
-    <div class="practice-matching-section">
-      <h2>想和我约实践的人 ({{this.practiceTargets.length}})</h2>
-      {{#if this.practiceTargets.length}}
-        <div class="user-list">
-          {{#each this.practiceTargets as |user|}}
-            <div class="user-item">
-              <div class="user-avatar">
-                {{#if user.avatar_url}}
-                  <img src="{{user.avatar_url}}" alt="{{user.username}}" class="avatar">
-                {{else}}
-                  <div class="avatar-placeholder">{{user.username}}</div>
-                {{/if}}
-              </div>
-              <div class="user-info">
-                <h3>{{user.name}}</h3>
-                <p>@{{user.username}}</p>
-              </div>
-              <div class="user-actions">
-                <button class="btn btn-default" {{action "viewUserProfile" user.username}}>
-                  查看资料
-                </button>
-              </div>
-            </div>
-          {{/each}}
-        </div>
-      {{else}}
-        <p class="no-data">还没有人想和你约实践</p>
-      {{/if}}
-    </div>
+
 
     <!-- 双向匹配 -->
     <div class="practice-matching-section">
@@ -100,6 +71,9 @@
                 <span class="match-badge">双向匹配</span>
               </div>
               <div class="user-actions">
+                <button class="btn btn-default" {{action "viewUserProfile" user.username}}>
+                  查看资料
+                </button>
                 <button class="btn btn-success" {{action "viewUserProfile" user.username}}>
                   开始实践
                 </button>
