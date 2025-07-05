@@ -33,9 +33,9 @@ export default class PracticeMatchingController extends Controller {
     if (username) {
       console.log("Adding user to practice interests:", username);
       try {
-        console.log("Sending AJAX request to /practice-matching/add");
+        console.log("Sending AJAX request to /api/practice-matching/add");
         console.log("Request data:", { username });
-        const result = await ajax("/practice-matching/add", {
+        const result = await ajax("/api/practice-matching/add", {
           type: "POST",
           data: { username }
         });
@@ -145,7 +145,7 @@ export default class PracticeMatchingController extends Controller {
   async removeInterest(username) {
     try {
       console.log("Removing user from practice interests:", username);
-      const result = await ajax("/practice-matching/remove", {
+      const result = await ajax("/api/practice-matching/remove", {
         type: "DELETE",
         data: { username }
       });

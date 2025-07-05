@@ -3,7 +3,7 @@ import { ajax } from "discourse/lib/ajax";
 
 export default class PracticeMatchingRoute extends DiscourseRoute {
   model() {
-    return ajax("/practice-matching").catch(error => {
+    return ajax("/api/practice-matching").catch(error => {
       console.error("Error loading practice matching data:", error);
       return {
         practice_interests: [],
@@ -23,7 +23,7 @@ export default class PracticeMatchingRoute extends DiscourseRoute {
 
   async addInterest(username) {
     try {
-      const result = await ajax("/practice-matching/add", {
+      const result = await ajax("/api/practice-matching/add", {
         type: "POST",
         data: { username }
       });
@@ -42,8 +42,8 @@ export default class PracticeMatchingRoute extends DiscourseRoute {
 
   async removeInterest(username) {
     try {
-      const result = await ajax("/practice-matching/remove", {
-        type: "POST",
+      const result = await ajax("/api/practice-matching/remove", {
+        type: "DELETE",
         data: { username }
       });
       

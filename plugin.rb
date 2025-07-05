@@ -42,11 +42,25 @@ after_initialize do
     scope.current_user && (scope.current_user.id == user.id || scope.current_user.admin?)
   end
 
+  # 添加list控制器扩展
+  reloadable_patch do |plugin|
+    ListController.class_eval do
+      def practice_matching
+        # 直接渲染HTML内容，不寻找模板
+        render html: '<div id="main-outlet" class="wrap"></div>'.html_safe, layout: 'application'
+      end
+    end
+  end
+
   # 添加路由
   Discourse::Application.routes.append do
-    get "/practice-matching" => "practice_matching#index"
-    post "/practice-matching/add" => "practice_matching#add_interest"
-    delete "/practice-matching/remove" => "practice_matching#remove_interest"
-    get "/practice-matching/test" => "practice_matching#test"
+    # 前端路由 - 直接渲染Ember应用，不指向特定控制器动作
+    get "/practice-matching" => "list#practice_matching"
+    
+    # API路由 - 使用 /api 前缀
+    get "/api/practice-matching" => "practice_matching#index"
+    post "/api/practice-matching/add" => "practice_matching#add_interest"
+    delete "/api/practice-matching/remove" => "practice_matching#remove_interest"
+    get "/api/practice-matching/test" => "practice_matching#test"
   end
 end 
