@@ -32,7 +32,7 @@
               </div>
               <div class="user-info">
                 <h3>{{user.name}}</h3>
-                <p>@{{user.username}}</p>
+                <p><span class="username">@{{user.username}}</span></p>
               </div>
               <div class="user-actions">
                 <button class="btn btn-default" {{action "viewUserProfile" user.username}}>
@@ -68,7 +68,7 @@
               </div>
               <div class="user-info">
                 <h3>{{user.name}}</h3>
-                <p>@{{user.username}}</p>
+                <p><span class="username">@{{user.username}}</span></p>
                 <span class="match-badge">双向匹配</span>
               </div>
               <div class="user-actions">

@@ -1,0 +1,17 @@
+{{#if this.showButton}}
+  <button
+    class={{this.buttonClass}}
+    disabled={{this.isLoading}}
+    {{on "click" this.toggleInterest}}
+    title={{if this.hasInterest "已添加实践兴趣" "添加实践兴趣"}}
+  >
+    {{d-icon this.buttonIcon}}
+    <span class="d-button-label">
+      {{#if this.isLoading}}
+        {{i18n "practice_matching.loading"}}
+      {{else}}
+        {{this.buttonText}}
+      {{/if}}
+    </span>
+  </button>
+{{/if}} 
