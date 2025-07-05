@@ -53,9 +53,15 @@ class PracticeMatching::PracticeInterest < ActiveRecord::Base
         data: {
           username: other_user.username,
           display_username: other_user.username,
+          user_id: other_user.id,
+          user_avatar_template: other_user.avatar_template,
           topic_id: nil,
           post_number: nil,
-          message: "你和 #{other_user.username} 都想和对方约实践！"
+          message: "恭喜，你和 #{other_user.username} 都想和对方约实践！",
+          # 添加更多上下文信息
+          match_type: "mutual_interest",
+          action_url: "/practice-matching",
+          action_text: "查看匹配详情"
         }.to_json
       )
     end

@@ -8,4 +8,9 @@ en:
       search_results: "Search Results"
       no_results: "No matching users found"
       search_hint: "Please enter a username to start searching"
-      confirm_add: "Confirm Add" 
+      confirm_add: "Confirm Add"
+    
+    notifications:
+      practice_match_found: "You and %{username} both want to practice together!"
+      titles:
+        practice_match_found: "Mutual Match Found" 

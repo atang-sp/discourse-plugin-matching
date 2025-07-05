@@ -261,4 +261,24 @@
       padding: 0.5rem 1rem;
     }
   }
+}
+
+// 通知样式
+.notification.practice-match-found {
+  .notification-data {
+    color: var(--success);
+    font-weight: 600;
+  }
+  
+  .notification-icon {
+    color: var(--success);
+  }
+  
+  .notification-description {
+    font-weight: 500;
+  }
+  
+  &:hover {
+    background: var(--success-low);
+  }
 } 

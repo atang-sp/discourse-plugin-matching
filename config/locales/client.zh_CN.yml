@@ -8,4 +8,9 @@ zh_CN:
       search_results: "搜索结果"
       no_results: "没有找到匹配的用户"
       search_hint: "请输入用户名开始搜索"
-      confirm_add: "确认添加" 
+      confirm_add: "确认添加"
+    
+    notifications:
+      practice_match_found: "恭喜，你和 %{username} 都想和对方约实践！"
+      titles:
+        practice_match_found: "发现双向匹配" 
