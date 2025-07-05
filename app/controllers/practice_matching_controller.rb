@@ -140,8 +140,8 @@ class PracticeMatchingController < ApplicationController
       name: user.name,
       avatar_template: user.avatar_template,
       trust_level: user.trust_level,
-      # 添加 avatar 相关字段
-      avatar_url: user.avatar_template.present? ? user.avatar_template : nil,
+      # 添加 avatar 相关字段 - 修复头像URL
+      avatar_url: user.avatar_template.present? ? user.avatar_template.gsub('{size}', '48') : nil,
       uploaded_avatar_id: user.uploaded_avatar_id,
       # 添加其他必要字段
       admin: user.admin?,

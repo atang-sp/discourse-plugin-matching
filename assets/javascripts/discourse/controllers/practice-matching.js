@@ -3,6 +3,7 @@ import { inject as service } from "@ember/service";
 import { action } from "@ember/object";
 import { tracked } from "@glimmer/tracking";
 import { ajax } from "discourse/lib/ajax";
+import { avatarUrl } from "discourse/lib/avatar-utils";
 import { getOwner } from "@ember/application";
 import PracticeMatchingUserSelector from "discourse/plugins/discourse-plugin-matching/discourse/components/practice-matching-user-selector";
 
@@ -18,6 +19,11 @@ export default class PracticeMatchingController extends Controller {
   @tracked selectedUsername = "";
   @tracked searchResults = [];
   @tracked isSearching = false;
+
+  @action
+  getAvatarUrl(avatarTemplate) {
+    return avatarUrl(avatarTemplate, "medium");
+  }
 
   @action
   async addInterest() {

@@ -24,8 +24,8 @@
           {{#each this.practiceInterests as |user|}}
             <div class="user-item">
               <div class="user-avatar">
-                {{#if user.avatar_url}}
-                  <img src="{{user.avatar_url}}" alt="{{user.username}}" class="avatar">
+                {{#if user.avatar_template}}
+                  <img src={{this.getAvatarUrl user.avatar_template}} alt={{user.username}} class="avatar">
                 {{else}}
                   <div class="avatar-placeholder">{{user.username}}</div>
                 {{/if}}
@@ -60,8 +60,8 @@
           {{#each this.practiceMatches as |user|}}
             <div class="user-item match">
               <div class="user-avatar">
-                {{#if user.avatar_url}}
-                  <img src="{{user.avatar_url}}" alt="{{user.username}}" class="avatar">
+                {{#if user.avatar_template}}
+                  <img src={{this.getAvatarUrl user.avatar_template}} alt={{user.username}} class="avatar">
                 {{else}}
                   <div class="avatar-placeholder">{{user.username}}</div>
                 {{/if}}

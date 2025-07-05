@@ -31,7 +31,7 @@
             >
               <div class="user-avatar">
                 {{#if user.avatar_template}}
-                  <img src="{{user.avatar_template}}" alt="{{user.username}}" class="avatar">
+                  <img src={{this.getAvatarUrl user.avatar_template}} alt={{user.username}} class="avatar">
                 {{else}}
                   <div class="avatar-placeholder">{{user.username}}</div>
                 {{/if}}
