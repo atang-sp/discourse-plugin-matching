@@ -8,7 +8,7 @@ class PracticeMatching::PracticeInterest < ActiveRecord::Base
 
   validates :user_id, presence: true
   validates :target_user_id, presence: true
-  validates :user_id, uniqueness: { scope: :target_user_id, message: "已经添加过这个用户了" }
+  validates :user_id, uniqueness: { scope: :target_user_id, message: I18n.t("practice_matching.errors.already_exists") }
   validate :cannot_add_self
 
   after_create :check_for_mutual_match
@@ -31,7 +31,7 @@ class PracticeMatching::PracticeInterest < ActiveRecord::Base
 
   def cannot_add_self
     if user_id == target_user_id
-      errors.add(:target_user_id, "不能添加自己")
+      errors.add(:target_user_id, I18n.t("practice_matching.errors.cannot_add_self"))
     end
   end
 
@@ -57,11 +57,11 @@ class PracticeMatching::PracticeInterest < ActiveRecord::Base
           user_avatar_template: other_user.avatar_template,
           topic_id: nil,
           post_number: nil,
-          message: "恭喜，你和 #{other_user.username} 都想和对方约实践！",
+          message: I18n.t("practice_matching.messages.mutual_match_notification", username: other_user.username),
           # 添加更多上下文信息
           match_type: "mutual_interest",
           action_url: "/practice-matching",
-          action_text: "查看匹配详情"
+          action_text: I18n.t("practice_matching.view_match_details")
         }.to_json
       )
     end

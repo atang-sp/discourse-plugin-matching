@@ -1,0 +1,28 @@
+zh_CN:
+  admin:
+    site_settings:
+      categories:
+        discourse_plugin_matching: "实践配对"
+  site_settings:
+    practice_matching_enabled: "启用实践配对功能"
+    practice_matching_min_trust_level: "使用实践配对功能的最低信任等级"
+  practice_matching:
+    view_match_details: "查看匹配详情"
+    errors:
+      user_not_found: "用户 %{username} 不存在"
+      cannot_add_self: "不能添加自己到实践兴趣列表"
+      already_exists: "已经添加过这个用户了"
+      creation_failed: "创建实践兴趣失败"
+      removal_failed: "移除实践兴趣失败"
+      permission_denied: "您没有权限执行此操作"
+      username_required: "用户名不能为空"
+      server_error: "服务器错误，请重试"
+      feature_disabled: "实践配对功能已禁用"
+      insufficient_trust_level: "你的信任等级不足以使用此功能"
+      record_not_found: "未找到该实践兴趣记录"
+    
+    messages:
+      interest_added: "已成功将 %{username} 添加到实践兴趣列表"
+      interest_removed: "已成功从实践兴趣列表中移除 %{username}"
+      mutual_match_notification: "恭喜！你和 %{username} 都想和对方约实践！"
+      test_success: "测试端点工作正常" 

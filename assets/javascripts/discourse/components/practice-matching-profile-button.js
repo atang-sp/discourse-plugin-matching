@@ -86,7 +86,7 @@ export default class PracticeMatchingProfileButton extends Component {
           this.hasInterest = false;
           this.toasts.success({
             duration: 3000,
-            data: { message: result.message || "已从实践兴趣列表中移除" }
+            data: { message: result.message || i18n("practice_matching.messages.interest_removed", { username: this.userModel.username }) }
           });
         }
       } else {
@@ -100,13 +100,13 @@ export default class PracticeMatchingProfileButton extends Component {
           this.hasInterest = true;
           this.toasts.success({
             duration: 3000,
-            data: { message: result.message || "已添加到实践兴趣列表" }
+            data: { message: result.message || i18n("practice_matching.messages.interest_added", { username: this.userModel.username }) }
           });
         }
       }
     } catch (error) {
       console.error("Error toggling interest:", error);
-      let errorMessage = "操作失败，请重试";
+      let errorMessage = i18n("practice_matching.errors.operation_failed");
       
       if (error.jqXHR && error.jqXHR.responseJSON) {
         errorMessage = error.jqXHR.responseJSON.error || errorMessage;

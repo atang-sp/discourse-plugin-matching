@@ -1,0 +1,30 @@
+en:
+  admin:
+    site_settings:
+      categories:
+        discourse_plugin_matching: "Practice Matching"
+
+  site_settings:
+    practice_matching_enabled: "Enable practice matching functionality"
+    practice_matching_min_trust_level: "Minimum trust level required to use practice matching"
+  
+  practice_matching:
+    view_match_details: "View Match Details"
+    errors:
+      user_not_found: "User %{username} not found"
+      cannot_add_self: "You cannot add yourself to practice interests"
+      already_exists: "You have already added this user to your practice interests"
+      creation_failed: "Failed to create practice interest"
+      removal_failed: "Failed to remove practice interest"
+      permission_denied: "You don't have permission to perform this action"
+      username_required: "Username cannot be empty"
+      server_error: "Server error, please try again"
+      feature_disabled: "Practice matching feature is disabled"
+      insufficient_trust_level: "Your trust level is insufficient to use this feature"
+      record_not_found: "Practice interest record not found"
+    
+    messages:
+      interest_added: "Successfully added %{username} to your practice interests"
+      interest_removed: "Successfully removed %{username} from your practice interests"
+      mutual_match_notification: "Congratulations! You and %{username} both want to practice together!"
+      test_success: "Test endpoint is working correctly" 

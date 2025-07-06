@@ -11,7 +11,7 @@ export default {
       // 添加导航栏项目（Discourse 3.5 推荐方式）
       api.addNavigationBarItem({
         name: "practice-matching",
-        displayName: "实践配对",
+        displayName: i18n("practice_matching.nav_title"),
         href: "/practice-matching",
         icon: "handshake"
       });

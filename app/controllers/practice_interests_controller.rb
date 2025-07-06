@@ -53,7 +53,7 @@ class PracticeInterestsController < ApplicationController
     Rails.logger.info "Target user ID: #{target_user&.id}"
     
     unless target_user
-      return render json: { error: "用户 #{target_username} 不存在" }, status: 404
+      return render json: { error: I18n.t("practice_matching.errors.user_not_found", username: target_username) }, status: 404
     end
     
     practice_interest = PracticeMatching::PracticeInterest.new(
@@ -84,7 +84,7 @@ class PracticeInterestsController < ApplicationController
     target_user = User.find_by(username: target_username)
     
     unless target_user
-      return render json: { error: "用户 #{target_username} 不存在" }, status: 404
+      return render json: { error: I18n.t("practice_matching.errors.user_not_found", username: target_username) }, status: 404
     end
     
     practice_interest = PracticeMatching::PracticeInterest.find_by(
@@ -95,7 +95,7 @@ class PracticeInterestsController < ApplicationController
     if practice_interest&.destroy
       render json: { success: true }
     else
-      render json: { error: "未找到该实践兴趣记录" }, status: 404
+      render json: { error: I18n.t("practice_matching.errors.record_not_found") }, status: 404
     end
   end
 

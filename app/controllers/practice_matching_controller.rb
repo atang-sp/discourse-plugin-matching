@@ -36,14 +36,14 @@ class PracticeMatchingController < ApplicationController
     
     unless target_username
       Rails.logger.error "No username provided in params"
-      return render json: { error: "用户名不能为空" }, status: 400
+      return render json: { error: I18n.t("practice_matching.errors.username_required") }, status: 400
     end
     
     target_user = User.find_by(username: target_username)
     
     unless target_user
       Rails.logger.warn "Target user not found: #{target_username}"
-      return render json: { error: "用户不存在" }, status: 404
+      return render json: { error: I18n.t("practice_matching.errors.user_not_found", username: target_username) }, status: 404
     end
     
     Rails.logger.info "Target user found: #{target_user.username} (ID: #{target_user.id})"
@@ -56,19 +56,19 @@ class PracticeMatchingController < ApplicationController
       case result
       when true
         Rails.logger.info "Practice interest created successfully"
-        render json: { success: true, message: "已添加 #{target_username} 到实践兴趣列表" }
+        render json: { success: true, message: I18n.t("practice_matching.messages.interest_added", username: target_username) }
       when :self_user
         Rails.logger.warn "User trying to add self"
-        render json: { error: "不能添加自己到实践兴趣列表" }, status: 400
+        render json: { error: I18n.t("practice_matching.errors.cannot_add_self") }, status: 400
       when :already_exists
         Rails.logger.warn "Practice interest already exists"
-        render json: { error: "已经添加过 #{target_username} 到实践兴趣列表了" }, status: 400
+        render json: { error: I18n.t("practice_matching.errors.already_exists") }, status: 400
       when :creation_failed
         Rails.logger.error "Failed to create practice interest record"
-        render json: { error: "添加失败，请重试" }, status: 400
+        render json: { error: I18n.t("practice_matching.errors.creation_failed") }, status: 400
       else
         Rails.logger.error "Unknown result from add_practice_interest: #{result}"
-        render json: { error: "添加失败，请重试" }, status: 400
+        render json: { error: I18n.t("practice_matching.errors.creation_failed") }, status: 400
       end
     rescue ActiveRecord::RecordInvalid => e
       Rails.logger.error "Record validation error: #{e.record.errors.full_messages}"
@@ -76,7 +76,7 @@ class PracticeMatchingController < ApplicationController
     rescue => e
       Rails.logger.error "Unexpected error: #{e.message}"
       Rails.logger.error e.backtrace.join("\n")
-      render json: { error: "服务器错误，请重试" }, status: 500
+      render json: { error: I18n.t("practice_matching.errors.server_error") }, status: 500
     end
   end
 
@@ -85,11 +85,11 @@ class PracticeMatchingController < ApplicationController
     target_user = User.find_by(username: target_username)
     
     unless target_user
-      return render json: { error: "用户不存在" }, status: 404
+      return render json: { error: I18n.t("practice_matching.errors.user_not_found", username: target_username) }, status: 404
     end
 
     current_user.remove_practice_interest(target_user)
-    render json: { success: true, message: "已从实践兴趣列表中移除 #{target_username}" }
+    render json: { success: true, message: I18n.t("practice_matching.messages.interest_removed", username: target_username) }
   end
 
   def test
@@ -100,7 +100,7 @@ class PracticeMatchingController < ApplicationController
     
     render json: { 
       success: true, 
-      message: "测试端点工作正常",
+      message: I18n.t("practice_matching.messages.test_success"),
       user: current_user&.username,
       timestamp: Time.current
     }
@@ -119,14 +119,14 @@ class PracticeMatchingController < ApplicationController
     
     unless SiteSetting.practice_matching_enabled
       Rails.logger.warn "Practice matching is disabled"
-      render json: { error: "实践配对功能已禁用" }, status: 403
+      render json: { error: I18n.t("practice_matching.errors.feature_disabled") }, status: 403
       return
     end
     
     min_trust_level = SiteSetting.practice_matching_min_trust_level
     unless current_user.has_trust_level?(min_trust_level) || current_user.staff?
       Rails.logger.warn "User #{current_user.username} does not have sufficient trust level (has: #{current_user.trust_level}, required: #{min_trust_level})"
-      render json: { error: "你的信任等级不足以使用此功能" }, status: 403
+      render json: { error: I18n.t("practice_matching.errors.insufficient_trust_level") }, status: 403
       return
     end
     

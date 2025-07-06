@@ -2,11 +2,11 @@ discourse_plugin_matching:
   practice_matching_enabled:
     default: true
     client: true
-    description: "启用实践配对功能"
+    description: "practice_matching_enabled"
     category: "plugins"
   practice_matching_min_trust_level:
     default: 0
     client: true
     enum: "TrustLevelSetting"
-    description: "使用实践配对功能的最低信任等级"
+    description: "practice_matching_min_trust_level"
     category: "plugins" 

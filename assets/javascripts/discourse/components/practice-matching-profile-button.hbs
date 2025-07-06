@@ -3,7 +3,7 @@
     class={{this.buttonClass}}
     disabled={{this.isLoading}}
     {{on "click" this.toggleInterest}}
-    title={{if this.hasInterest "已添加实践兴趣" "添加实践兴趣"}}
+    title={{if this.hasInterest (i18n "practice_matching.already_interested") (i18n "practice_matching.add_interest")}}
   >
     {{d-icon this.buttonIcon}}
     <span class="d-button-label">

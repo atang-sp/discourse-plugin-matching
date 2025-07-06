@@ -6,6 +6,7 @@ import { ajax } from "discourse/lib/ajax";
 import { avatarUrl } from "discourse/lib/avatar-utils";
 import { getOwner } from "@ember/application";
 import PracticeMatchingUserSelector from "discourse/plugins/discourse-plugin-matching/discourse/components/practice-matching-user-selector";
+import { i18n } from "discourse-i18n";
 
 export default class PracticeMatchingController extends Controller {
   @service router;
@@ -58,7 +59,7 @@ export default class PracticeMatchingController extends Controller {
           // 显示成功消息
           this.toasts.success({
             duration: 3000,
-            data: { message: result.message || "用户已添加到实践兴趣列表" }
+            data: { message: result.message || i18n("practice_matching.messages.interest_added", { username }) }
           });
           // 刷新数据
           this.send("refreshModel");
@@ -68,7 +69,7 @@ export default class PracticeMatchingController extends Controller {
           // 显示错误消息
           this.toasts.error({
             duration: 3000,
-            data: { message: "添加失败，请重试" }
+            data: { message: i18n("practice_matching.errors.add_failed") }
           });
         }
 
@@ -83,7 +84,7 @@ export default class PracticeMatchingController extends Controller {
           errorType: typeof error
         });
         // 显示错误消息
-        let errorMessage = "添加用户失败，请重试";
+        let errorMessage = i18n("practice_matching.errors.add_user_failed");
         
         // 安全地处理错误对象
         if (error && typeof error === 'object') {
@@ -165,7 +166,7 @@ export default class PracticeMatchingController extends Controller {
         // 显示成功消息
         this.toasts.success({
           duration: 3000,
-          data: { message: result.message || "用户已从实践兴趣列表中移除" }
+          data: { message: result.message || i18n("practice_matching.messages.interest_removed", { username }) }
         });
         // 刷新数据
         this.send("refreshModel");
@@ -173,7 +174,7 @@ export default class PracticeMatchingController extends Controller {
         console.warn("Unexpected result format for remove:", result);
         this.toasts.error({
           duration: 3000,
-          data: { message: "移除失败，请重试" }
+          data: { message: i18n("practice_matching.errors.remove_failed") }
         });
       }
     } catch (error) {
@@ -186,7 +187,7 @@ export default class PracticeMatchingController extends Controller {
         errorType: typeof error
       });
       // 显示错误消息
-      let errorMessage = "移除用户失败，请重试";
+      let errorMessage = i18n("practice_matching.errors.remove_user_failed");
       
       // 安全地处理错误对象
       if (error && typeof error === 'object') {

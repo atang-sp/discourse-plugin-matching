@@ -1,24 +1,24 @@
 {{body-class "practice-matching-page"}}
 <section class="practice-matching-page">
   <div class="practice-matching-header">
-    <h1>实践配对管理</h1>
-    <p>管理你想约实践的用户列表，当双方都想和对方约实践时会收到通知</p>
+    <h1>{{i18n "practice_matching.page_title"}}</h1>
+    <p>{{i18n "practice_matching.page_description"}}</p>
   </div>
 
   <div class="practice-matching-content">
     <!-- 添加新兴趣 -->
     <div class="practice-matching-section">
-      <h2>添加实践兴趣</h2>
+      <h2>{{i18n "practice_matching.add_interest_section"}}</h2>
       <div class="add-interest-form">
         <button class="btn btn-primary" {{action "addInterest"}}>
-          <i class="fa fa-plus"></i> 添加用户到实践兴趣列表
+          <i class="fa fa-plus"></i> {{i18n "practice_matching.add_user_button"}}
         </button>
       </div>
     </div>
 
     <!-- 我的实践兴趣 -->
     <div class="practice-matching-section">
-      <h2>我的实践兴趣 ({{this.practiceInterests.length}})</h2>
+      <h2>{{i18n "practice_matching.my_interests"}} ({{this.practiceInterests.length}})</h2>
       {{#if this.practiceInterests.length}}
         <div class="user-list">
           {{#each this.practiceInterests as |user|}}
@@ -36,17 +36,17 @@
               </div>
               <div class="user-actions">
                 <button class="btn btn-default" {{action "viewUserProfile" user.username}}>
-                  查看资料
+                  {{i18n "practice_matching.view_profile"}}
                 </button>
                 <button class="btn btn-danger" {{action "removeInterest" user.username}}>
-                  移除
+                  {{i18n "practice_matching.remove"}}
                 </button>
               </div>
             </div>
           {{/each}}
         </div>
       {{else}}
-        <p class="no-data">还没有添加任何实践兴趣</p>
+        <p class="no-data">{{i18n "practice_matching.no_interests"}}</p>
       {{/if}}
     </div>
 
@@ -54,7 +54,7 @@
 
     <!-- 双向匹配 -->
     <div class="practice-matching-section">
-      <h2>双向匹配 ({{this.practiceMatches.length}})</h2>
+      <h2>{{i18n "practice_matching.mutual_matches"}} ({{this.practiceMatches.length}})</h2>
       {{#if this.practiceMatches.length}}
         <div class="user-list matches">
           {{#each this.practiceMatches as |user|}}
@@ -69,18 +69,18 @@
               <div class="user-info">
                 <h3>{{user.name}}</h3>
                 <p><span class="username">@{{user.username}}</span></p>
-                <span class="match-badge">双向匹配</span>
+                <span class="match-badge">{{i18n "practice_matching.match_badge"}}</span>
               </div>
               <div class="user-actions">
                 <button class="btn btn-default" {{action "viewUserProfile" user.username}}>
-                  查看资料
+                  {{i18n "practice_matching.view_profile"}}
                 </button>
               </div>
             </div>
           {{/each}}
         </div>
       {{else}}
-        <p class="no-data">还没有双向匹配</p>
+        <p class="no-data">{{i18n "practice_matching.no_matches"}}</p>
       {{/if}}
     </div>
   </div>
