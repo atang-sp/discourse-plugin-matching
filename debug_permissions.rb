@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 # 调试实践配对权限问题的脚本
 puts "=== 调试实践配对权限问题 ==="
@@ -10,7 +11,7 @@ puts "practice_matching_min_trust_level: #{SiteSetting.practice_matching_min_tru
 
 # 检查用户
 puts "\n2. 检查用户:"
-diana_user = User.find_by(username: 'diana_ux')
+diana_user = User.find_by(username: "diana_ux")
 if diana_user
   puts "diana_ux 用户信息:"
   puts "  ID: #{diana_user.id}"
@@ -36,21 +37,23 @@ end
 
 # 检查数据库表
 puts "\n3. 检查数据库表:"
-if ActiveRecord::Base.connection.table_exists?('practice_interests')
+if ActiveRecord::Base.connection.table_exists?("practice_interests")
   puts "practice_interests 表存在"
   count = PracticeMatching::PracticeInterest.count
   puts "当前记录数: #{count}"
-  
+
   if count > 0
     puts "最近的记录:"
-    PracticeMatching::PracticeInterest.limit(5).each do |record|
-      user = User.find_by(id: record.user_id)
-      target = User.find_by(id: record.target_user_id)
-      puts "  User: #{user&.username} -> Target: #{target&.username}"
-    end
+    PracticeMatching::PracticeInterest
+      .limit(5)
+      .each do |record|
+        user = User.find_by(id: record.user_id)
+        target = User.find_by(id: record.target_user_id)
+        puts "  User: #{user&.username} -> Target: #{target&.username}"
+      end
   end
 else
   puts "practice_interests 表不存在"
 end
 
-puts "\n=== 调试完成 ===" 
+puts "\n=== 调试完成 ==="

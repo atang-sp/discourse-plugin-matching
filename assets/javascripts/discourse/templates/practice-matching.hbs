@@ -5,12 +5,19 @@
     <p>{{i18n "practice_matching.page_description"}}</p>
   </div>
 
+  <div class="alert alert-info practice-matching-deprecation" role="status">
+    <p>{{i18n "practice_matching.deprecation_notice"}}</p>
+    <a class="btn btn-primary" href="/where-is-my-friends/interests">
+      {{i18n "practice_matching.replacement_link"}}
+    </a>
+  </div>
+
   <div class="practice-matching-content">
     <!-- 添加新兴趣 -->
     <div class="practice-matching-section">
       <h2>{{i18n "practice_matching.add_interest_section"}}</h2>
       <div class="add-interest-form">
-        <button class="btn btn-primary" {{action "addInterest"}}>
+        <button class="btn btn-primary" type="button" {{on "click" this.addInterest}}>
           <i class="fa fa-plus"></i> {{i18n "practice_matching.add_user_button"}}
         </button>
       </div>
@@ -35,10 +42,10 @@
                 <p><span class="username">@{{user.username}}</span></p>
               </div>
               <div class="user-actions">
-                <button class="btn btn-default" {{action "viewUserProfile" user.username}}>
+                <button class="btn btn-default" type="button" {{on "click" (fn this.viewUserProfile user.username)}}>
                   {{i18n "practice_matching.view_profile"}}
                 </button>
-                <button class="btn btn-danger" {{action "removeInterest" user.username}}>
+                <button class="btn btn-danger" type="button" {{on "click" (fn this.removeInterest user.username)}}>
                   {{i18n "practice_matching.remove"}}
                 </button>
               </div>
@@ -72,7 +79,7 @@
                 <span class="match-badge">{{i18n "practice_matching.match_badge"}}</span>
               </div>
               <div class="user-actions">
-                <button class="btn btn-default" {{action "viewUserProfile" user.username}}>
+                <button class="btn btn-default" type="button" {{on "click" (fn this.viewUserProfile user.username)}}>
                   {{i18n "practice_matching.view_profile"}}
                 </button>
               </div>
@@ -84,4 +91,4 @@
       {{/if}}
     </div>
   </div>
-</section> 
+</section>

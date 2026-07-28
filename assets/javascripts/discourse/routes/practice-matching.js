@@ -1,14 +1,12 @@
-import DiscourseRoute from "discourse/routes/discourse";
 import { ajax } from "discourse/lib/ajax";
+import DiscourseRoute from "discourse/routes/discourse";
 
 export default class PracticeMatchingRoute extends DiscourseRoute {
   model() {
-    return ajax("/api/practice-matching").catch(error => {
-      console.error("Error loading practice matching data:", error);
+    return ajax("/api/practice-matching").catch(() => {
       return {
         practice_interests: [],
-        practice_targets: [],
-        practice_matches: []
+        practice_matches: [],
       };
     });
   }
@@ -16,46 +14,7 @@ export default class PracticeMatchingRoute extends DiscourseRoute {
   setupController(controller, model) {
     controller.setProperties({
       practiceInterests: model.practice_interests || [],
-      practiceTargets: model.practice_targets || [],
-      practiceMatches: model.practice_matches || []
+      practiceMatches: model.practice_matches || [],
     });
   }
-
-  async addInterest(username) {
-    try {
-      const result = await ajax("/api/practice-matching/add", {
-        type: "POST",
-        data: { username }
-      });
-      
-      if (result.success) {
-        // 刷新数据
-        this.refresh();
-      }
-      
-      return result;
-    } catch (error) {
-      console.error("Error adding interest:", error);
-      throw error;
-    }
-  }
-
-  async removeInterest(username) {
-    try {
-      const result = await ajax("/api/practice-matching/remove", {
-        type: "DELETE",
-        data: { username }
-      });
-      
-      if (result.success) {
-        // 刷新数据
-        this.refresh();
-      }
-      
-      return result;
-    } catch (error) {
-      console.error("Error removing interest:", error);
-      throw error;
-    }
-  }
-} 
+}

@@ -15,14 +15,14 @@ test_users = [
     password: "password123"
   },
   {
-    username: "bob_tester", 
+    username: "bob_tester",
     email: "bob@example.com",
     name: "Bob Tester",
     password: "password123"
   },
   {
     username: "charlie_qa",
-    email: "charlie@example.com", 
+    email: "charlie@example.com",
     name: "Charlie QA",
     password: "password123"
   },
@@ -43,18 +43,18 @@ test_users = [
 created_users = []
 
 test_users.each do |user_data|
-  begin
-    # 检查用户是否已存在
-    existing_user = User.find_by(username: user_data[:username])
-    
-    if existing_user
-      puts "用户 #{user_data[:username]} 已存在，跳过创建"
-      created_users << existing_user
-      next
-    end
+  # 检查用户是否已存在
+  existing_user = User.find_by(username: user_data[:username])
 
-    # 创建新用户
-    user = User.new(
+  if existing_user
+    puts "用户 #{user_data[:username]} 已存在，跳过创建"
+    created_users << existing_user
+    next
+  end
+
+  # 创建新用户
+  user =
+    User.new(
       username: user_data[:username],
       email: user_data[:email],
       name: user_data[:name],
@@ -64,16 +64,14 @@ test_users.each do |user_data|
       trust_level: 1
     )
 
-    if user.save
-      puts "✓ 成功创建用户: #{user_data[:username]} (#{user_data[:name]})"
-      created_users << user
-    else
-      puts "✗ 创建用户失败: #{user_data[:username]} - #{user.errors.full_messages.join(', ')}"
-    end
-
-  rescue => e
-    puts "✗ 创建用户时出错: #{user_data[:username]} - #{e.message}"
+  if user.save
+    puts "✓ 成功创建用户: #{user_data[:username]} (#{user_data[:name]})"
+    created_users << user
+  else
+    puts "✗ 创建用户失败: #{user_data[:username]} - #{user.errors.full_messages.join(", ")}"
   end
+rescue => e
+  puts "✗ 创建用户时出错: #{user_data[:username]} - #{e.message}"
 end
 
 puts "\n=== 创建结果 ==="
@@ -85,11 +83,11 @@ if created_users.any?
   created_users.each do |user|
     puts "- #{user.username} (#{user.name}) - #{user.email}"
   end
-  
+
   puts "\n登录信息:"
   puts "用户名: 见上方列表"
   puts "密码: password123"
   puts "访问地址: http://localhost:4200 (开发环境)"
 end
 
-puts "\n脚本执行完成！" 
+puts "\n脚本执行完成！"

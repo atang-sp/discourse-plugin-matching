@@ -1,5 +1,8 @@
 # Discourse Practice Matching Plugin
 
+> **维护模式**：此插件不再接受新功能。新的兴趣推荐与一对一实践邀请将由
+> `where-is-my-friends` 提供；本仓库仅保留安全修补和迁移支持。
+
 一个Discourse插件，允许用户添加想约实践的人，当双方都想和对方约实践时通知两人。
 
 ## 功能特点
@@ -159,4 +162,4 @@ MIT License
 
 ## 贡献
 
-欢迎提交Issue和Pull Request来改进这个插件。 
+欢迎提交Issue和Pull Request来改进这个插件。

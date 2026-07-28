@@ -4,12 +4,8 @@ import { action } from "@ember/object";
 import { service } from "@ember/service";
 import { ajax } from "discourse/lib/ajax";
 import { avatarUrl } from "discourse/lib/avatar-utils";
-import DModal from "discourse/components/d-modal";
-import DButton from "discourse/components/d-button";
-import { i18n } from "discourse-i18n";
 
 export default class PracticeMatchingUserSelector extends Component {
-  @service store;
   @service modal;
 
   @tracked searchQuery = "";
@@ -35,8 +31,7 @@ export default class PracticeMatchingUserSelector extends Component {
         data: { term: this.searchQuery }
       });
       this.searchResults = result.users || [];
-    } catch (error) {
-      console.error("Error searching users:", error);
+    } catch {
       this.searchResults = [];
     } finally {
       this.isSearching = false;
@@ -65,4 +60,4 @@ export default class PracticeMatchingUserSelector extends Component {
     this.searchQuery = event.target.value;
     this.searchUsers();
   }
-} 
+}

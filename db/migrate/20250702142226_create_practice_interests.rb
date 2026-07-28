@@ -8,7 +8,7 @@ class CreatePracticeInterests < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    add_index :practice_interests, [:user_id, :target_user_id], unique: true
+    add_index :practice_interests, %i[user_id target_user_id], unique: true
     add_index :practice_interests, :target_user_id
   end
 end

@@ -2,8 +2,13 @@
 
 module PracticeMatching::UserExtension
   def self.prepended(base)
-    base.has_many :practice_interests, class_name: "PracticeMatching::PracticeInterest", dependent: :delete_all
-    base.has_many :practice_targets, class_name: "PracticeMatching::PracticeInterest", foreign_key: :target_user_id, dependent: :delete_all
+    base.has_many :practice_interests,
+                  class_name: "PracticeMatching::PracticeInterest",
+                  dependent: :delete_all
+    base.has_many :practice_targets,
+                  class_name: "PracticeMatching::PracticeInterest",
+                  foreign_key: :target_user_id,
+                  dependent: :delete_all
   end
 
   def practice_matches
@@ -13,17 +18,17 @@ module PracticeMatching::UserExtension
   def add_practice_interest(target_user)
     # Return specific error codes for different failure reasons
     return :self_user if target_user == self
-    return :already_exists if practice_interests.exists?(target_user: target_user)
-    
+    if practice_interests.exists?(target_user: target_user)
+      return :already_exists
+    end
+
     # Create the practice interest
     begin
-      practice_interest = practice_interests.create!(target_user: target_user)
+      practice_interests.create!(target_user: target_user)
       true
-    rescue ActiveRecord::RecordInvalid => e
-      Rails.logger.error "Failed to create practice interest: #{e.record.errors.full_messages}"
+    rescue ActiveRecord::RecordInvalid
       :creation_failed
-    rescue => e
-      Rails.logger.error "Unexpected error creating practice interest: #{e.message}"
+    rescue StandardError
       :creation_failed
     end
   end
@@ -43,4 +48,4 @@ module PracticeMatching::UserExtension
   def practice_targets_list
     practice_targets.includes(:user).map(&:user)
   end
-end 
+end
