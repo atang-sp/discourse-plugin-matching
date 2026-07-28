@@ -1,5 +1,8 @@
 # Discourse Practice Matching Plugin
 
+> **维护模式**：此插件不再接受新功能。新的兴趣推荐与一对一实践邀请将由
+> `where-is-my-friends` 提供；本仓库仅保留安全修补和迁移支持。
+
 一个Discourse插件，允许用户添加想约实践的人，当双方都想和对方约实践时通知两人。
 
 ## 功能特点
@@ -87,8 +90,8 @@
 ### 查看匹配
 - 在实践配对管理页面可以看到：
   - 我的实践兴趣（你想约实践的人）
-  - 想和我约实践的人
   - 双向匹配（双方都想约实践的人）
+- 单向指向你的兴趣不会向你公开
 
 ### 移除实践兴趣
 - 在实践兴趣列表中点击"移除"按钮
@@ -101,13 +104,14 @@
 - 自动通知系统
 
 ### API接口
-- `GET /practice-matching` - 获取用户的实践配对数据
-- `POST /practice-matching/add` - 添加实践兴趣
-- `DELETE /practice-matching/remove` - 移除实践兴趣
+- `GET /api/practice-matching` - 获取当前用户自己的实践兴趣和双向匹配
+- `POST /api/practice-matching/add` - 添加实践兴趣
+- `DELETE /api/practice-matching/remove` - 移除实践兴趣
 
 ### 通知系统
 - 当检测到双向匹配时自动发送通知
-- 通知类型：`practice_match_found`
+- 使用 Discourse 内置 `custom` 类型，不占用全局自定义编号
+- 升级迁移只会把本插件可识别的历史 900 类型通知转为 `custom`
 
 ## 配置
 
@@ -147,11 +151,11 @@ discourse-plugin-matching/
 └── README.md                          # 说明文档
 ```
 
-### 自定义开发
-1. 修改数据模型以添加更多字段
-2. 扩展通知系统以支持更多通知类型
-3. 添加更多用户界面功能
-4. 集成其他Discourse功能
+### 维护边界
+
+- 仅接受安全修补、兼容性修补和迁移支持
+- 新的一对一实践邀请功能在 `where-is-my-friends` 中开发
+- 不在本插件中新增字段、通知类型、界面功能或外部集成
 
 ## 许可证
 
@@ -159,4 +163,4 @@ MIT License
 
 ## 贡献
 
-欢迎提交Issue和Pull Request来改进这个插件。 
+仅接受安全、兼容性和迁移相关的 Issue 与 Pull Request。

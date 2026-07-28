@@ -1,136 +1,148 @@
 # frozen_string_literal: true
 
 class PracticeMatchingController < ApplicationController
+  requires_plugin PracticeMatching::PLUGIN_NAME
+
   before_action :ensure_logged_in
   before_action :ensure_practice_matching_enabled
-  skip_before_action :check_xhr, only: [:index, :test]
-  skip_before_action :verify_authenticity_token, only: [:add_interest, :remove_interest]
+  skip_before_action :check_xhr, only: [:index]
 
   def index
     @user = current_user
     @practice_interests = @user.practice_interests_list
-    @practice_targets = @user.practice_targets_list
     @practice_matches = User.where(id: @user.practice_matches)
-    
+
     render json: {
-      practice_interests: @practice_interests.map { |u| user_serializer(u) },
-      practice_targets: @practice_targets.map { |u| user_serializer(u) },
-      practice_matches: @practice_matches.map { |u| user_serializer(u) }
-    }
+             practice_interests:
+               @practice_interests.map { |u| user_serializer(u) },
+             practice_matches: @practice_matches.map { |u| user_serializer(u) },
+             deprecated: true,
+             replacement_url: "/where-is-my-friends/interests"
+           }
   end
 
   def add_interest
-    Rails.logger.info "=== Adding Practice Interest ==="
-    Rails.logger.info "Request method: #{request.method}"
-    Rails.logger.info "Request params: #{params.inspect}"
-    Rails.logger.info "Request headers: #{request.headers.to_h.select { |k,v| k.start_with?('HTTP_') }}"
-    Rails.logger.info "Current user: #{current_user&.username} (ID: #{current_user&.id})"
-    Rails.logger.info "Current user trust level: #{current_user&.trust_level}"
-    Rails.logger.info "Current user admin: #{current_user&.admin?}"
-    Rails.logger.info "Current user staff: #{current_user&.staff?}"
-    Rails.logger.info "Practice matching enabled: #{SiteSetting.practice_matching_enabled}"
-    Rails.logger.info "Min trust level required: #{SiteSetting.practice_matching_min_trust_level}"
-    
     target_username = params[:username]
-    Rails.logger.info "Target username: #{target_username}"
-    
+
     unless target_username
-      Rails.logger.error "No username provided in params"
-      return render json: { error: I18n.t("practice_matching.errors.username_required") }, status: 400
+      return(
+        render json: {
+                 error: I18n.t("practice_matching.errors.username_required")
+               },
+               status: :bad_request
+      )
     end
-    
+
     target_user = User.find_by(username: target_username)
-    
+
     unless target_user
-      Rails.logger.warn "Target user not found: #{target_username}"
-      return render json: { error: I18n.t("practice_matching.errors.user_not_found", username: target_username) }, status: 404
+      return(
+        render json: {
+                 error:
+                   I18n.t(
+                     "practice_matching.errors.user_not_found",
+                     username: target_username
+                   )
+               },
+               status: :not_found
+      )
     end
-    
-    Rails.logger.info "Target user found: #{target_user.username} (ID: #{target_user.id})"
 
     begin
-      Rails.logger.info "Creating practice interest..."
       result = current_user.add_practice_interest(target_user)
-      Rails.logger.info "Add practice interest result: #{result}"
-      
+
       case result
       when true
-        Rails.logger.info "Practice interest created successfully"
-        render json: { success: true, message: I18n.t("practice_matching.messages.interest_added", username: target_username) }
+        render json: {
+                 success: true,
+                 message:
+                   I18n.t(
+                     "practice_matching.messages.interest_added",
+                     username: target_username
+                   )
+               }
       when :self_user
-        Rails.logger.warn "User trying to add self"
-        render json: { error: I18n.t("practice_matching.errors.cannot_add_self") }, status: 400
+        render json: {
+                 error: I18n.t("practice_matching.errors.cannot_add_self")
+               },
+               status: :bad_request
       when :already_exists
-        Rails.logger.warn "Practice interest already exists"
-        render json: { error: I18n.t("practice_matching.errors.already_exists") }, status: 400
+        render json: {
+                 error: I18n.t("practice_matching.errors.already_exists")
+               },
+               status: :bad_request
       when :creation_failed
-        Rails.logger.error "Failed to create practice interest record"
-        render json: { error: I18n.t("practice_matching.errors.creation_failed") }, status: 400
+        render json: {
+                 error: I18n.t("practice_matching.errors.creation_failed")
+               },
+               status: :bad_request
       else
-        Rails.logger.error "Unknown result from add_practice_interest: #{result}"
-        render json: { error: I18n.t("practice_matching.errors.creation_failed") }, status: 400
+        render json: {
+                 error: I18n.t("practice_matching.errors.creation_failed")
+               },
+               status: :bad_request
       end
     rescue ActiveRecord::RecordInvalid => e
-      Rails.logger.error "Record validation error: #{e.record.errors.full_messages}"
-      render json: { error: e.record.errors.full_messages.join(", ") }, status: 400
-    rescue => e
-      Rails.logger.error "Unexpected error: #{e.message}"
-      Rails.logger.error e.backtrace.join("\n")
-      render json: { error: I18n.t("practice_matching.errors.server_error") }, status: 500
+      render json: {
+               error: e.record.errors.full_messages.join(", ")
+             },
+             status: :bad_request
+    rescue StandardError
+      render json: {
+               error: I18n.t("practice_matching.errors.server_error")
+             },
+             status: :internal_server_error
     end
   end
 
   def remove_interest
     target_username = params[:username]
     target_user = User.find_by(username: target_username)
-    
+
     unless target_user
-      return render json: { error: I18n.t("practice_matching.errors.user_not_found", username: target_username) }, status: 404
+      return(
+        render json: {
+                 error:
+                   I18n.t(
+                     "practice_matching.errors.user_not_found",
+                     username: target_username
+                   )
+               },
+               status: :not_found
+      )
     end
 
     current_user.remove_practice_interest(target_user)
-    render json: { success: true, message: I18n.t("practice_matching.messages.interest_removed", username: target_username) }
-  end
-
-  def test
-    Rails.logger.info "=== Test endpoint called ==="
-    Rails.logger.info "Current user: #{current_user&.username}"
-    Rails.logger.info "Request method: #{request.method}"
-    Rails.logger.info "Request params: #{params.inspect}"
-    
-    render json: { 
-      success: true, 
-      message: I18n.t("practice_matching.messages.test_success"),
-      user: current_user&.username,
-      timestamp: Time.current
-    }
+    render json: {
+             success: true,
+             message:
+               I18n.t(
+                 "practice_matching.messages.interest_removed",
+                 username: target_username
+               )
+           }
   end
 
   private
 
   def ensure_practice_matching_enabled
-    Rails.logger.info "=== Checking Practice Matching Permissions ==="
-    Rails.logger.info "Current user: #{current_user&.username}"
-    Rails.logger.info "Practice matching enabled: #{SiteSetting.practice_matching_enabled}"
-    Rails.logger.info "Min trust level required: #{SiteSetting.practice_matching_min_trust_level}"
-    Rails.logger.info "Current user trust level: #{current_user&.trust_level}"
-    Rails.logger.info "Current user has required trust level: #{current_user&.has_trust_level?(SiteSetting.practice_matching_min_trust_level)}"
-    Rails.logger.info "Current user is staff: #{current_user&.staff?}"
-    
     unless SiteSetting.practice_matching_enabled
-      Rails.logger.warn "Practice matching is disabled"
-      render json: { error: I18n.t("practice_matching.errors.feature_disabled") }, status: 403
+      render json: {
+               error: I18n.t("practice_matching.errors.feature_disabled")
+             },
+             status: :forbidden
       return
     end
-    
+
     min_trust_level = SiteSetting.practice_matching_min_trust_level
     unless current_user.has_trust_level?(min_trust_level) || current_user.staff?
-      Rails.logger.warn "User #{current_user.username} does not have sufficient trust level (has: #{current_user.trust_level}, required: #{min_trust_level})"
-      render json: { error: I18n.t("practice_matching.errors.insufficient_trust_level") }, status: 403
-      return
+      render json: {
+               error:
+                 I18n.t("practice_matching.errors.insufficient_trust_level")
+             },
+             status: :forbidden
+      nil
     end
-    
-    Rails.logger.info "Permission check passed for user #{current_user.username}"
   end
 
   def user_serializer(user)
@@ -141,7 +153,7 @@ class PracticeMatchingController < ApplicationController
       avatar_template: user.avatar_template,
       trust_level: user.trust_level,
       # 添加 avatar 相关字段 - 修复头像URL
-      avatar_url: user.avatar_template.present? ? user.avatar_template.gsub('{size}', '48') : nil,
+      avatar_url: user.avatar_template.presence&.gsub("{size}", "48"),
       uploaded_avatar_id: user.uploaded_avatar_id,
       # 添加其他必要字段
       admin: user.admin?,
@@ -150,4 +162,4 @@ class PracticeMatchingController < ApplicationController
       primary_group_name: user.primary_group&.name
     }
   end
-end 
+end

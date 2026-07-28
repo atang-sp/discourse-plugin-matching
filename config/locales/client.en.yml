@@ -15,6 +15,8 @@ en:
       nav_title: "Practice Matching"
       page_title: "Practice Matching Management"
       page_description: "Manage your list of users you want to practice with. You'll be notified when both parties want to practice together."
+      deprecation_notice: "Practice Matching is being retired. Use Local Friends interests and recommendations for new connections."
+      replacement_link: "Open Local Friends"
       add_interest_section: "Add Practice Interest"
       add_user_button: "Add User to Practice Interest List"
       my_interests: "My Practice Interests"
@@ -30,8 +32,11 @@ en:
         add_user_failed: "Failed to add user, please try again"
         remove_failed: "Remove failed, please try again"
         remove_user_failed: "Failed to remove user, please try again"
+      notification:
+        title: "Practice Matching"
+        mutual_match: "found a mutual practice match"
     
     notifications:
       practice_match_found: "You and %{username} both want to practice together!"
       titles:
-        practice_match_found: "Mutual Match Found" 
+        practice_match_found: "Mutual Match Found"

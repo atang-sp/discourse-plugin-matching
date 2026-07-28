@@ -27,4 +27,3 @@ en:
       interest_added: "Successfully added %{username} to your practice interests"
       interest_removed: "Successfully removed %{username} from your practice interests"
       mutual_match_notification: "Congratulations! You and %{username} both want to practice together!"
-      test_success: "Test endpoint is working correctly" 
