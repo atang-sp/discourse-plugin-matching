@@ -25,6 +25,20 @@ module("Unit | Practice match notification renderer", function () {
     assert.strictEqual(renderer.linkHref, "/practice-matching");
   });
 
+  test("preserves action URLs from other custom notifications", function (assert) {
+    const renderer = new Renderer({
+      data: {
+        message: "another.plugin.notification",
+        action_url: "/where-is-my-friends/interests",
+      },
+    });
+
+    assert.strictEqual(
+      renderer.linkHref,
+      "/where-is-my-friends/interests"
+    );
+  });
+
   test("preserves core link behavior for unrelated custom notifications", function (assert) {
     const renderer = new Renderer({
       data: { message: "another.plugin.notification" },
