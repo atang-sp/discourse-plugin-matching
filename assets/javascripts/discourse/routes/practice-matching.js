@@ -7,6 +7,7 @@ export default class PracticeMatchingRoute extends DiscourseRoute {
       return {
         practice_interests: [],
         practice_matches: [],
+        read_only: true,
       };
     });
   }
@@ -15,6 +16,7 @@ export default class PracticeMatchingRoute extends DiscourseRoute {
     controller.setProperties({
       practiceInterests: model.practice_interests || [],
       practiceMatches: model.practice_matches || [],
+      readOnly: model.read_only !== false,
     });
   }
 }

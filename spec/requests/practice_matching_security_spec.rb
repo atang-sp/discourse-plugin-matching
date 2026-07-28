@@ -74,7 +74,29 @@ RSpec.describe "Practice matching security" do
     expect(response.status).to eq(200)
     expect(response.parsed_body).to include(
       "deprecated" => true,
+      "read_only" => true,
       "replacement_url" => "/where-is-my-friends/interests"
     )
+  end
+
+  it "keeps the legacy page read-only while preserving existing data" do
+    existing =
+      PracticeMatching::PracticeInterest.create!(
+        user: user,
+        target_user: target_user
+      )
+
+    post "/api/practice-matching/add.json",
+         params: {
+           username: Fabricate(:user).username
+         }
+    expect(response.status).to eq(410)
+
+    delete "/api/practice-matching/remove.json",
+           params: {
+             username: target_user.username
+           }
+    expect(response.status).to eq(410)
+    expect(existing.reload).to be_persisted
   end
 end

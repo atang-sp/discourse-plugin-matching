@@ -5,6 +5,7 @@ class PracticeMatchingController < ApplicationController
 
   before_action :ensure_logged_in
   before_action :ensure_practice_matching_enabled
+  before_action :ensure_legacy_read_only, only: %i[add_interest remove_interest]
   skip_before_action :check_xhr, only: [:index]
 
   def index
@@ -17,6 +18,7 @@ class PracticeMatchingController < ApplicationController
                @practice_interests.map { |u| user_serializer(u) },
              practice_matches: @practice_matches.map { |u| user_serializer(u) },
              deprecated: true,
+             read_only: true,
              replacement_url: "/where-is-my-friends/interests"
            }
   end
@@ -124,6 +126,13 @@ class PracticeMatchingController < ApplicationController
   end
 
   private
+
+  def ensure_legacy_read_only
+    render json: {
+             error: I18n.t("practice_matching.errors.read_only")
+           },
+           status: :gone
+  end
 
   def ensure_practice_matching_enabled
     unless SiteSetting.practice_matching_enabled
