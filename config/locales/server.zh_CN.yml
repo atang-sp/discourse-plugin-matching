@@ -20,6 +20,7 @@ zh_CN:
       feature_disabled: "实践配对功能已禁用"
       insufficient_trust_level: "你的信任等级不足以使用此功能"
       record_not_found: "未找到该实践兴趣记录"
+      read_only: "旧实践配对现已只读，请使用“同城朋友”发起新邀请"
     
     messages:
       interest_added: "已成功将 %{username} 添加到实践兴趣列表"

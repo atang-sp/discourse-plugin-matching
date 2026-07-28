@@ -12,16 +12,24 @@
     </a>
   </div>
 
+  {{#if this.readOnly}}
+    <div class="alert alert-warning" data-test-practice-matching-read-only>
+      {{i18n "practice_matching.read_only_notice"}}
+    </div>
+  {{/if}}
+
   <div class="practice-matching-content">
     <!-- 添加新兴趣 -->
-    <div class="practice-matching-section">
-      <h2>{{i18n "practice_matching.add_interest_section"}}</h2>
-      <div class="add-interest-form">
-        <button class="btn btn-primary" type="button" {{on "click" this.addInterest}}>
-          <i class="fa fa-plus"></i> {{i18n "practice_matching.add_user_button"}}
-        </button>
+    {{#unless this.readOnly}}
+      <div class="practice-matching-section">
+        <h2>{{i18n "practice_matching.add_interest_section"}}</h2>
+        <div class="add-interest-form">
+          <button class="btn btn-primary" type="button" data-test-add-practice-interest {{on "click" this.addInterest}}>
+            <i class="fa fa-plus"></i> {{i18n "practice_matching.add_user_button"}}
+          </button>
+        </div>
       </div>
-    </div>
+    {{/unless}}
 
     <!-- 我的实践兴趣 -->
     <div class="practice-matching-section">
@@ -45,9 +53,11 @@
                 <button class="btn btn-default" type="button" {{on "click" (fn this.viewUserProfile user.username)}}>
                   {{i18n "practice_matching.view_profile"}}
                 </button>
-                <button class="btn btn-danger" type="button" {{on "click" (fn this.removeInterest user.username)}}>
-                  {{i18n "practice_matching.remove"}}
-                </button>
+                {{#unless this.readOnly}}
+                  <button class="btn btn-danger" type="button" data-test-remove-practice-interest {{on "click" (fn this.removeInterest user.username)}}>
+                    {{i18n "practice_matching.remove"}}
+                  </button>
+                {{/unless}}
               </div>
             </div>
           {{/each}}

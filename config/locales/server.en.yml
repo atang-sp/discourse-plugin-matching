@@ -22,6 +22,7 @@ en:
       feature_disabled: "Practice matching feature is disabled"
       insufficient_trust_level: "Your trust level is insufficient to use this feature"
       record_not_found: "Practice interest record not found"
+      read_only: "The legacy practice-matching flow is read-only. Use Local Friends for new invitations."
     
     messages:
       interest_added: "Successfully added %{username} to your practice interests"

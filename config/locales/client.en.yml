@@ -16,6 +16,7 @@ en:
       page_title: "Practice Matching Management"
       page_description: "Manage your list of users you want to practice with. You'll be notified when both parties want to practice together."
       deprecation_notice: "Practice Matching is being retired. Use Local Friends interests and recommendations for new connections."
+      read_only_notice: "This page is now read-only. Existing interests and mutual matches remain visible as history."
       replacement_link: "Open Local Friends"
       add_interest_section: "Add Practice Interest"
       add_user_button: "Add User to Practice Interest List"
